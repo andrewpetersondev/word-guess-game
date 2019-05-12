@@ -48,8 +48,8 @@ document.onkeyup = function (event) {
     // This code below initially displays the boardGame with underscores
     displayBoardDiv.textContent = boardGame.join(" ");
 
-    // Check if the userInput’s letter is in computer word
-    if (computerWord.indexOf(userInput) > -1) {
+    // Check if the userInput’s letter is in computerWord
+    if (computerWord.indexOf(userInput) != -1) {
 
         // This below code replaces the underscore with the correct guess letter
         boardGame[computerWord.indexOf(userInput)] = userInput;

@@ -1,5 +1,6 @@
 // ================== VARIABLES =================
 var gameWords = ["billclinton", "johngotti", "nelsonmandela", "kurtcobain", "seinfeld", "friends", "michaeljordan", "supernintendo"];
+var validInputs = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var wins = 0;
 var losses = 0;
 var guessCount = 9;
@@ -9,7 +10,6 @@ var wrongGuessLetter = "";
 
 console.log(computerWord);
 
-// set up blank boardGame using underscores
 var boardGame = [];
 for (var i = 0; i < computerWord.length; i++) {
     boardGame[i] = "_";
@@ -17,15 +17,15 @@ for (var i = 0; i < computerWord.length; i++) {
 
 // ================ FUNCTIONS ===================================
 function initializeGame() {
+    document.getElementById("directions-text").innerHTML = "Press any key to start playing!";
     document.getElementById("wins").innerHTML = "wins : " + wins;
     document.getElementById("losses").innerHTML = "losses : " + losses;
-    document.getElementById("wrong-guesses").innerHTML = "wrong-guesses : " + wrongGuessLetter;
+    document.getElementById("wrong-guesses").innerHTML = "wrong guesses : " + wrongGuessLetter;
 }
 
 initializeGame();
 
 function resetGame() {
-    // copy and paste all the initialize variables from above
     guessCount = 9;
     computerWord = gameWordsgameWords[Math.floor(Math.random() * gameWords.length)];
     wrongGuessLetter = "";
@@ -34,59 +34,55 @@ function resetGame() {
 }
 
 // ======================== MAIN PROCESS ==============================
-
-// this onkeyUp function is an indefinite loop in itself when the user presses the key letter from the keyboard
 document.onkeyup = function (event) {
 
-    // capture userInput and store it in lowercase
     var userInput = event.key.toLowerCase();
 
-    // document.getElementById gets the selector for the div with id = “output” in index.html
+    // why do i need this? and why is it here?
     var displayBoardDiv = document.getElementById("output");
 
-    // join(" ") function gets rid of comma separator from the array with empty string. Default array has comma separators 
-    // This code below initially displays the boardGame with underscores
+    // when i commented this code out there was no difference in apperance
     displayBoardDiv.textContent = boardGame.join(" ");
 
-    // Check if the userInput’s letter is in computerWord
-    if (computerWord.indexOf(userInput) != -1) {
+    // make sure user input is valid
+    if (validInputs.indexOf(userInput) != -1) {
 
-        // This below code replaces the underscore with the correct guess letter
-        boardGame[computerWord.indexOf(userInput)] = userInput;
+        // indexOf only returns the first occurrence of a letter, what alternatives are there to return all occurences?
+        if (computerWord.indexOf(userInput) != -1) {
 
-        // this code below displays the updated board game with div id called “output” in index.html
-        displayBoardDiv.textContent = boardGame.join(" ");
+            // replaces the underscore with the correct guess letter
+            boardGame[computerWord.indexOf(userInput)] = userInput;
 
-        // this code below does a string concatenation for the rightGuessLetter to form computer pick word
-        rightGuessLetter = rightGuessLetter + userInput;
+            // displays the updated board game with div id called “output” in index.html
+            displayBoardDiv.textContent = boardGame.join(" ");
 
-        // Checks computer pick word equals to the rightGuessLetter that has the final word
-        if (computerWord === rightGuessLetter) {
-            wins++;
-            resetGame();
+            // does a string concatenation for the rightGuessLetter to form computer pick word
+            rightGuessLetter = rightGuessLetter + userInput;
+
+            // player wins
+            if (computerWord === rightGuessLetter) {
+                wins++;
+                resetGame();
+            }
+
         }
+        else {
+            guessCount = guessCount - 1;
 
+            wrongGuessLetter = wrongGuessLetter + userInput + ", ";
+
+            var outputWrongDiv = document.getElementById("wrong-guess");
+
+            outputWrongDiv.textContext = wrongGuessLetter;
+
+            // player loses 
+            if (guessCount === 0) {
+                loss++;
+                resetGame();
+            }
+        }
     }
     else {
-        guessCount = guessCount - 1;
-
-        // letter is not found in my computer pick word, do string concatenation wrongGuessLetter with userInput
-        wrongGuessLetter = wrongGuessLetter + userInput + ", ";
-        // wrongGuessLetter=”” +”r” first iteration
-        // wrongGuessLetter=”r ” +”, z ” second iteration
-        // wrongGuessLetter=”r , z ” +”, w” third iteration
-
-        // This code gets  selector div with id = “wrongGuess” in index.html  
-        var outputWrongDiv = document.getElementById("wrong-guess");
-        // This code displays the wrong guess letters on the div with id = “wrongGuess” in index.html     
-        outputWrongDiv.textContext = wrongGuessLetter;
-
-        // number of guess of 0 remaining, increase loss by 1    
-        if (guessCount === 0) {
-            loss++;
-            resetGame();
-            // call  resetGame function  , re-initialize everything from the beginning
-        }
+        alert("that is not a valid input, guess again");
     }
-
 }

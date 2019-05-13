@@ -28,9 +28,15 @@ initializeGame();
 
 function resetGame() {
     guessCount = 9;
-    computerWord = gameWordsgameWords[Math.floor(Math.random() * gameWords.length)];
+    computerWord = gameWords[Math.floor(Math.random() * gameWords.length)];
     wrongGuessLetter = "";
     rightGuessLetter = "";
+    userGuesses = "";
+    validInputs = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    boardGame = [];
+    for (var i = 0; i < computerWord.length; i++) {
+        boardGame[i] = "_";
+    }
     console.log(computerWord);
 }
 
@@ -49,7 +55,7 @@ document.onkeyup = function (event) {
     if (validInputs.indexOf(userInput) != -1) {
 
         // make sure the user can only enter the same input once
-        if (userGuesses.indexOf(userInput) == -1) {
+        if (userGuesses.indexOf(userInput) === -1) {
 
             // indexOf only returns the first occurrence of a letter, what alternatives are there to return all occurences?
             if (computerWord.indexOf(userInput) != -1) {
@@ -57,10 +63,9 @@ document.onkeyup = function (event) {
                 // replaces the underscore with the correct guess letter
                 boardGame[computerWord.indexOf(userInput)] = userInput;
 
-                // displays the updated board game with div id called “output” in index.html
                 displayBoardDiv.textContent = boardGame.join(" ");
 
-                // does a string concatenation for the rightGuessLetter to form computer pick word
+                // string concatenation to form computer pick word
                 rightGuessLetter = rightGuessLetter + userInput;
 
                 // player wins
@@ -75,13 +80,13 @@ document.onkeyup = function (event) {
 
                 wrongGuessLetter = wrongGuessLetter + userInput + ", ";
 
-                var outputWrongDiv = document.getElementById("wrong-guess");
+                var outputWrongDiv = document.getElementById("wrong-guesses");
 
                 outputWrongDiv.textContext = wrongGuessLetter;
 
                 // player loses 
-                if (guessCount === 0) {
-                    loss++;
+                if (guessCount <= 0) {
+                    losses++;
                     resetGame();
                 }
             }

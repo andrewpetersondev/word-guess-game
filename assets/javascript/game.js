@@ -7,6 +7,7 @@ var guessCount = 9;
 var computerWord = gameWords[Math.floor(Math.random() * gameWords.length)];
 var rightGuessLetter = "";
 var wrongGuessLetter = "";
+// var wrongGuessLetter = [];
 var userGuesses = [];
 var boardGame = [];
 for (var i = 0; i < computerWord.length; i++) {
@@ -22,6 +23,7 @@ function initializeGame() {
     document.getElementById("losses").innerHTML = "losses : " + losses;
     document.getElementById("wrong-guesses").innerHTML = "wrong guesses : " + wrongGuessLetter;
     document.getElementById("user-guesses").innerHTML = "<b>You already guessed :</b>  " + userGuesses + " ";
+    document.getElementById("guess-counter").innerHTML = guessCount;
 }
 
 initializeGame();
@@ -30,6 +32,7 @@ function resetGame() {
     guessCount = 9;
     computerWord = gameWords[Math.floor(Math.random() * gameWords.length)];
     wrongGuessLetter = "";
+    // wrongGuessLetter = [];
     rightGuessLetter = "";
     userGuesses = [];
     boardGame = [];
@@ -50,7 +53,7 @@ document.onkeyup = function (event) {
     // when i commented this code out there was no difference in apperance
     displayBoardDiv.textContent = boardGame.join(" ");
 
-    // make sure user input is valid
+    // make sure user input is a letter
     if (validInputs.indexOf(userInput) !== -1) {
 
         // make sure the user can only enter the same input once
@@ -68,7 +71,7 @@ document.onkeyup = function (event) {
             //     }
             // }
 
-            // indexOf only returns the first occurrence of a letter, what alternatives are there to return all occurences? maybe a for-loop?
+            // check if userInput is in computer word array
             if (computerWord.indexOf(userInput) !== -1) {
 
                 // replaces the underscore with the correct guess letter
@@ -81,14 +84,21 @@ document.onkeyup = function (event) {
 
                 // player wins
                 if (computerWord === rightGuessLetter) {
+                    // increment wins by 1
                     wins++;
+                    // update wins counter on html page
                     document.getElementById("wins").innerHTML = wins;
+                    // reset the game
                     resetGame();
                 }
 
             }
             else {
+                // decrement guess count by 1
                 guessCount--;
+
+                // update guess counter in html
+                document.getElementById("guess-counter").innerHTML = guessCount;
 
                 wrongGuessLetter = wrongGuessLetter + userInput + " , ";
 
@@ -99,8 +109,11 @@ document.onkeyup = function (event) {
             }
             // player loses 
             if (guessCount <= 0) {
+                // increment losses by 1
                 losses++;
+                // update losses in html
                 document.getElementById("losses").innerHTML = losses;
+                // restart the game
                 resetGame();
             }
         } // make sure the user can only enter the same input once

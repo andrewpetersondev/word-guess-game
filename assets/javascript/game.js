@@ -7,6 +7,7 @@ var guessCount = 9;
 var computerWord = gameWords[Math.floor(Math.random() * gameWords.length)];
 var rightGuessLetter = "";
 var wrongGuessLetter = "";
+var userGuesses = "";
 
 console.log(computerWord);
 
@@ -47,39 +48,46 @@ document.onkeyup = function (event) {
     // make sure user input is valid
     if (validInputs.indexOf(userInput) != -1) {
 
-        // indexOf only returns the first occurrence of a letter, what alternatives are there to return all occurences?
-        if (computerWord.indexOf(userInput) != -1) {
+        // make sure the user can only enter the same input once
+        if (userGuesses.indexOf(userInput) == -1) {
 
-            // replaces the underscore with the correct guess letter
-            boardGame[computerWord.indexOf(userInput)] = userInput;
+            // indexOf only returns the first occurrence of a letter, what alternatives are there to return all occurences?
+            if (computerWord.indexOf(userInput) != -1) {
 
-            // displays the updated board game with div id called “output” in index.html
-            displayBoardDiv.textContent = boardGame.join(" ");
+                // replaces the underscore with the correct guess letter
+                boardGame[computerWord.indexOf(userInput)] = userInput;
 
-            // does a string concatenation for the rightGuessLetter to form computer pick word
-            rightGuessLetter = rightGuessLetter + userInput;
+                // displays the updated board game with div id called “output” in index.html
+                displayBoardDiv.textContent = boardGame.join(" ");
 
-            // player wins
-            if (computerWord === rightGuessLetter) {
-                wins++;
-                resetGame();
+                // does a string concatenation for the rightGuessLetter to form computer pick word
+                rightGuessLetter = rightGuessLetter + userInput;
+
+                // player wins
+                if (computerWord === rightGuessLetter) {
+                    wins++;
+                    resetGame();
+                }
+
             }
+            else {
+                guessCount = guessCount - 1;
 
+                wrongGuessLetter = wrongGuessLetter + userInput + ", ";
+
+                var outputWrongDiv = document.getElementById("wrong-guess");
+
+                outputWrongDiv.textContext = wrongGuessLetter;
+
+                // player loses 
+                if (guessCount === 0) {
+                    loss++;
+                    resetGame();
+                }
+            }
         }
         else {
-            guessCount = guessCount - 1;
-
-            wrongGuessLetter = wrongGuessLetter + userInput + ", ";
-
-            var outputWrongDiv = document.getElementById("wrong-guess");
-
-            outputWrongDiv.textContext = wrongGuessLetter;
-
-            // player loses 
-            if (guessCount === 0) {
-                loss++;
-                resetGame();
-            }
+            alert("you already selected that, guess again");
         }
     }
     else {

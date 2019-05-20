@@ -1,20 +1,32 @@
 // ================== GLOBAL VARIABLES =================
+// list of words for game
 var gameWords = ["friends", "ape", "dog", "cat", "gif", "top", "true", "false", "input", "monkey", "desk", "whale", "dolphin"];
+
+// random word 
+var computerWord = gameWords[Math.floor(Math.random() * gameWords.length)];
+
+console.log(computerWord);
+
+// only these inputs are valid
 var validInputs = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
+// Game Counter
 var wins = 0;
 var losses = 0;
 var guessCount = 9;
-var computerWord = gameWords[Math.floor(Math.random() * gameWords.length)];
+
+// user inputs and display
+// use string concatenation on this varible to form the whole word and compare to the gameWord
 var rightGuessLetter = "";
-var wrongGuessLetter = "";
-// var wrongGuessLetter = [];
+// use string concatenation on this variable to display wrong guesses
+var wrongGuessLetter = ""; 
 var userGuesses = [];
 var boardGame = [];
 for (var i = 0; i < computerWord.length; i++) {
     boardGame[i] = "_";
 }
 
-console.log(computerWord);
+var userInput = "";
 
 // ================ FUNCTIONS ===================================
 function initializeGame() {
@@ -47,10 +59,10 @@ document.onkeyup = function (event) {
 
     var userInput = event.key.toLowerCase();
 
-    // why do i need this? and why is it here?
+    // create a variable to target html div holding the computer word
     var displayBoardDiv = document.getElementById("computer-word");
 
-    // when i commented this code out there was no difference in apperance
+    // input correct 
     displayBoardDiv.textContent = boardGame.join(" ");
 
     // make sure user input is a letter
@@ -100,8 +112,11 @@ document.onkeyup = function (event) {
                 // update guess counter in html
                 document.getElementById("guess-counter").innerHTML = guessCount;
 
+                // store wrong guess in a string 
                 wrongGuessLetter = wrongGuessLetter + userInput + " , ";
+                console.log(wrongGuessLetter);
 
+                // 
                 var outputWrongDiv = document.getElementById("wrong-guesses");
 
                 outputWrongDiv.textContext = wrongGuessLetter;
@@ -120,7 +135,7 @@ document.onkeyup = function (event) {
         else {
             alert("you already selected that, guess again");
         }
-    }
+    } // make sure user inputs a valid letter
     else {
         alert("that is not a valid input, guess again");
     }

@@ -4,60 +4,69 @@ var gameWords = ["friends", "ape", "dog", "cat", "gif", "top", "true", "false", 
 
 // random word 
 var computerWord = gameWords[Math.floor(Math.random() * gameWords.length)];
-
 console.log(computerWord);
 
 // only these inputs are valid
 var validInputs = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
+// User Inputs and Display
+
+// use string concatenation on this varible to form the whole word and compare to the gameWord
+var rightGuessLetter = ""; 
+
+// use string concatenation on this variable to display wrong guesses
+
+var wrongGuessLetter = ""; 
+
+// store user guesses
+var userGuesses = [];
+
+// stores chosen word in an  array?
+var boardGame = [];
+
+// initialize board game with underscores
+for (var i = 0; i < computerWord.length; i++) {
+    boardGame[i] = "_";
+}
+
+var userInput = ""; // stores the letter key pressed by user // should this variable be stored globally?
 
 // Game Counter
 var wins = 0;
 var losses = 0;
 var guessCount = 9;
 
-// user inputs and display
-// use string concatenation on this varible to form the whole word and compare to the gameWord
-var rightGuessLetter = "";
-// use string concatenation on this variable to display wrong guesses
-var wrongGuessLetter = ""; 
-var userGuesses = [];
-var boardGame = [];
-for (var i = 0; i < computerWord.length; i++) {
-    boardGame[i] = "_";
-}
+// ====================== FUNCTIONS ========================
+// function initializeGame() {
+//     document.getElementById("wins").innerHTML = wins;
+//     document.getElementById("losses").innerHTML = losses;
+//     document.getElementById("guess-counter").innerHTML = guessCount;
+//     document.getElementById("wrong-guesses").innerHTML = wrongGuessLetter;
+//     document.getElementById("user-guesses").innerHTML = "<b>You already guessed :</b>  " + userGuesses + " ";
+// }
 
-var userInput = "";
+// initializeGame();
 
-// ================ FUNCTIONS ===================================
-function initializeGame() {
-    document.getElementById("directions-text").innerHTML = "Press any key to start playing!";
-    document.getElementById("wins").innerHTML = "wins : " + wins;
-    document.getElementById("losses").innerHTML = "losses : " + losses;
-    document.getElementById("wrong-guesses").innerHTML = "wrong guesses : " + wrongGuessLetter;
-    document.getElementById("user-guesses").innerHTML = "<b>You already guessed :</b>  " + userGuesses + " ";
-    document.getElementById("guess-counter").innerHTML = guessCount;
-}
-
-initializeGame();
-
+// function to reset game 
 function resetGame() {
     guessCount = 9;
     computerWord = gameWords[Math.floor(Math.random() * gameWords.length)];
-    wrongGuessLetter = "";
-    // wrongGuessLetter = [];
+    wrongGuessLetter = ""; // wrongGuessLetter = [];
     rightGuessLetter = "";
     userGuesses = [];
     boardGame = [];
     for (var i = 0; i < computerWord.length; i++) {
         boardGame[i] = "_";
     }
+    // userInput = "";
     console.log(computerWord);
 }
 
-// ======================== MAIN PROCESS ==============================
+// =================== MAIN PROCESS ==============================
 document.onkeyup = function (event) {
 
-    var userInput = event.key.toLowerCase();
+    // stores key press
+    userInput = event.key;
 
     // create a variable to target html div holding the computer word
     var displayBoardDiv = document.getElementById("computer-word");
@@ -69,12 +78,11 @@ document.onkeyup = function (event) {
     if (validInputs.indexOf(userInput) !== -1) {
 
         // make sure the user can only enter the same input once
-        // this statment doesnt work yet
         if (userGuesses.indexOf(userInput) === -1) {
 
             // insert userInput into userGuesses array
             userGuesses.push(userInput);
-            console.log(userGuesses);
+            // console.log(userGuesses);
 
 
             // for (i = 0; i < computerWord.length; i++) {
@@ -114,12 +122,13 @@ document.onkeyup = function (event) {
 
                 // store wrong guess in a string 
                 wrongGuessLetter = wrongGuessLetter + userInput + " , ";
+
                 console.log(wrongGuessLetter);
 
-                // 
+                // display wrong guesses on html
                 var outputWrongDiv = document.getElementById("wrong-guesses");
 
-                outputWrongDiv.textContext = wrongGuessLetter;
+                outputWrongDiv.textContent = wrongGuessLetter;
 
             }
             // player loses 

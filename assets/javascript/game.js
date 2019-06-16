@@ -1,24 +1,17 @@
+// console.log("beginning of logic");
+
 // GLOBAL VARIABLES 
 // ================================================================================
 
-var gameWords = ["friends", "ape", "dog", "cat", "gif", "top", "true", "false", "input", "monkey", "desk", "whale", "dolphin"];
+// arrays and variables to hold data
+var gameWords = ["blockchain", "ibm", "google", "amazon", "developer", "cryptocurrency", "cloud", "quantum computing", "artificial intelligence", "linux", "kali", "robots", "decentralization"];
+var computerWord = "";
+var lettersInComputerWord = [];
+var numBlanks = 0;
+var gameBoard = []; // i _ _
+var wrongGuesses = [];
 
-var computerWord = gameWords[Math.floor(Math.random() * gameWords.length)];
-
-// console.log("Random Word = " + computerWord);
-
-var validInputs = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-
-var lettersGuessed = "";
-var userInput = "";
-var rightGuessLetter = "";
-var wrongGuessLetter = "";
-var boardGame = [];
-
-for (var i = 0; i < computerWord.length; i++) {
-    boardGame[i] = "_";
-}
-
+// Counters
 var wins = 0;
 var losses = 0;
 var guessCount = 9;
@@ -26,79 +19,120 @@ var guessCount = 9;
 // FUNCTIONS 
 // ================================================================================
 
-function initializeGame() {
-    guessCount = 9;
+function startGame() {
+    console.log("startGame() called");
+
+    // set 
     computerWord = gameWords[Math.floor(Math.random() * gameWords.length)];
-    console.log("Random Word = " + computerWord);
+    lettersInComputerWord = computerWord.split('');
+    numBlanks = lettersInComputerWord.length;
+
+    // reset 
+    guessCount = 9;
+    wrongGuesses = [];
+    gameBoard = [];
+
+    // populate game board
+    for (var i = 0; i < numBlanks; i++) {
+        gameBoard.push("_");
+    }
+
+    // display to html
+    // .join() joins array elements into a string
+    document.getElementById("guess-counter").innerHTML = guessCount;
+    document.getElementById("computer-word").innerHTML = gameBoard.join('  ');
     document.getElementById("wins").innerHTML = wins;
     document.getElementById("losses").innerHTML = losses;
-    document.getElementById("guess-counter").innerHTML = guessCount;
-    document.getElementById("wrong-guesses").innerHTML = wrongGuessLetter;
-}
 
-function resetGame() {
-    guessCount = 9;
-    computerWord = gameWords[Math.floor(Math.random() * gameWords.length)];
-    wrongGuessLetter = "";
-    rightGuessLetter = "";
-    userGuesses = [];
-    boardGame = [];
-    for (var i = 0; i < computerWord.length; i++) {
-        boardGame[i] = "_";
+    //  test / debug
+    console.log(computerWord);
+    console.log(lettersInComputerWord);
+    console.log(numBlanks);
+    console.log(gameBoard);
+};
+
+function checkLetters(letter) {
+   
+    // testing and debugging
+    console.log("checkLetters(letter) called");
+    console.log(letter);
+
+    // toggle boolean
+    var letterInWord = false;
+
+    // check if a letter is in game word
+    for (var i = 0; i < numBlanks; i++) {
+        if (computerWord[i] === letter) {
+            letterInWord = true;
+        }
     }
-    userInput = "";
-    // console.log("WinCount: " + wins + " | LossCount: " + losses + " | GuessCounter: " + guessCount);
-    // console.log("Random Word = " + computerWord);
+
+    // check where letters are in the game word then populate array
+    if (letterInWord) {
+        for (var j = 0; j < numBlanks; j++) {
+            if (computerWord[j] === letter) {
+                gameBoard[j] = letter;
+            }
+        }
+    }
+
+    // letter was not in word
+    else {
+        wrongGuesses.push(letter);
+        guessCount--;
+    }
+
+    // testing and debugging
+    console.log(gameBoard);
+
+};
+
+function gameOver() {
+
+    // testing / debugging
+    console.log("gameOver() called");
+    console.log("Win Count: " + wins + " | Loss Count: " + losses + " | Guesses Left: " + guessCount);
+
+    // update html
+    document.getElementById("guess-counter").innerHTML = guessCount;
+    document.getElementById("computer-word").innerHTML = gameBoard.join(' ');
+    document.getElementById("wrong-guesses").innerHTML = wrongGuesses.join(' ');
+
+    // user wins
+    if (lettersInComputerWord.toString() === gameBoard.toString()) {
+        wins++;
+        // alert("you win");
+        document.getElementById("wins").innerHTML = wins;
+        startGame();
+    }
+    // user losses
+    else if (guessCount <= 0) {
+        losses++;
+        alert("you lose");
+        document.getElementById("losses").innerHTML = losses;
+        startGame();
+    }
+
 }
 
 // MAIN PROCESS
 // ================================================================================
 
+startGame();
+
+// initiates the function for capturing key clicks
 document.onkeyup = function (event) {
-    userInput = event.key;
-    var displayBoardDiv = document.getElementById("computer-word");
-    displayBoardDiv.textContent = boardGame.join(" ");
-    if (validInputs.indexOf(userInput) !== -1) {
-        // if (userGuesses.indexOf(userInput) === -1) {
-        // insert userInput into userGuesses array
-        // userGuesses.push(userInput);
-        // for (var i = 0; i < computerWord.length; i++) {
-        //     if (computerWord[i] == userInput) {
-        //         boardGame[i] == userInput;
-        //     }
-        // }
-        // indexOf returns -1 if value is not in array
-        if (computerWord.indexOf(userInput) !== -1) {
-            boardGame[computerWord.indexOf(userInput)] = userInput;
-            displayBoardDiv.textContent = boardGame.join(" ");
-            rightGuessLetter = rightGuessLetter + userInput;
-            // player wins
-            if (computerWord === rightGuessLetter) {
-                wins++;
-                document.getElementById("wins").innerHTML = wins;
-                resetGame();
-            }
-        }
-        else {
-            guessCount--;
-            document.getElementById("guess-counter").innerHTML = guessCount;
-            // store wrong guess in a string 
-            wrongGuessLetter = wrongGuessLetter + userInput + " , ";
-            var outputWrongDiv = document.getElementById("wrong-guesses");
-            outputWrongDiv.textContent = wrongGuessLetter;
-        }
-        // player loses 
-        if (guessCount <= 0) {
-            losses++;
-            document.getElementById("losses").innerHTML = losses;
-            resetGame();
-        }
-        // } 
-        // else {
-        //     alert("you already selected that, guess again");
-        // }
-    }
-    else {
-        alert("that is not a valid input, guess again");
-    }
+
+    // converts key clicks to lowercase letters and stores them in global variable
+    var userInput = String.fromCharCode(event.keyCode).toLowerCase();
+
+    // testing / debugging
+    console.log(userInput);
+
+    // runs check letters function with data from letters guessed string
+    checkLetters(userInput);
+
+    // runs everything else
+    gameOver();
+
 };

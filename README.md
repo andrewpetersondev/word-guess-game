@@ -1,7 +1,5 @@
 # word-guess-game
 
-Week 3
-
 ## Take a look
 
 **[Word Guess Game](https://andrewpetersondev.github.io/word-guess-game/)**

@@ -22,19 +22,17 @@ var numGuesses = 7;
 
 function startGame () {
 
-    // reset variables at the start of the round
+    // First, log an initial status update in the console telling us how many wins, losses, and guesses are left.
+    // console.log("WinCount: " + wins + " | LossCount: " + losses + " | NumGuesses: " + numGuesses);
+
+    // reset variables
     numGuesses = 7;
     blanksAndCorrectGuesses = [];
     wrongGuesses = [];
 
-    // reset display at the start of the round
-    document.getElementById("guess-counter").innerHTML = numGuesses;
-    document.getElementById("computer-word").innerHTML = blanksAndCorrectGuesses.join(" ");
-    document.getElementById("wrong-guesses").innerHTML = wrongGuesses.join(" ");
-
     // choose word
     randomWord = words[Math.floor(Math.random() * words.length)];
-    console.log(randomWord);
+    // console.log(randomWord);
 
     // split the word into individual letters
     lettersInRandomWord = randomWord.split("");
@@ -42,7 +40,7 @@ function startGame () {
 
     // store the length of the word so we know how many blanks to generate
     blanksQuantity = lettersInRandomWord.length;
-    console.log(blanksQuantity);
+    // console.log(blanksQuantity);
 
     // create blanks display
     for (var i = 0; i < blanksQuantity; i++) {
@@ -57,6 +55,9 @@ function startGame () {
 }
 
 function checkLetter (letter) {
+
+    // First, log an initial status update in the console telling us how many wins, losses, and guesses are left.
+    // console.log("WinCount: " + wins + " | LossCount: " + losses + " | NumGuesses: " + numGuesses);
 
     // creating a boolean variable is an effective way to toggle a function on and off
     var letterInWordToggle = false;
@@ -100,7 +101,7 @@ function roundComplete() {
         document.getElementById("wins").innerHTML = wins;
         startGame();
     }
-    else if (numGuesses = 0) {
+    else if (numGuesses === 0) {
         losses++;
         alert("you lost");
         document.getElementById("losses").innerHTML = losses;

@@ -1,148 +1,130 @@
-// game object
-var wordGuessGame = {
+// global variables
+// ===========================================================================================================================================
 
-    // word objects
-    gameWords = {
-        blockchain: {
-            picture: "genesis.jpg",
-            song: "Illegal Alien",
-            preview: "https://p.scdn.co/mp3-preview/b29a2b925b9654e0efaaff37504fd234307e0ad8"
-        },
-        ibm: {
-            picture: "genesis.jpg",
-            song: "Illegal Alien",
-            preview: "https://p.scdn.co/mp3-preview/b29a2b925b9654e0efaaff37504fd234307e0ad8"
-        },
-        google: {
-            picture: "genesis.jpg",
-            song: "Illegal Alien",
-            preview: "https://p.scdn.co/mp3-preview/b29a2b925b9654e0efaaff37504fd234307e0ad8"
-        },
-        amazon: {
-            picture: "genesis.jpg",
-            song: "Illegal Alien",
-            preview: "https://p.scdn.co/mp3-preview/b29a2b925b9654e0efaaff37504fd234307e0ad8"
-        },
-        developer: {
-            picture: "genesis.jpg",
-            song: "Illegal Alien",
-            preview: "https://p.scdn.co/mp3-preview/b29a2b925b9654e0efaaff37504fd234307e0ad8"
-        },
-        cryptocurrency: {
-            picture: "genesis.jpg",
-            song: "Illegal Alien",
-            preview: "https://p.scdn.co/mp3-preview/b29a2b925b9654e0efaaff37504fd234307e0ad8"
-        },
-        nasa: {
-            picture: "genesis.jpg",
-            song: "Illegal Alien",
-            preview: "https://p.scdn.co/mp3-preview/b29a2b925b9654e0efaaff37504fd234307e0ad8"
-        },
-        robots: {
-            picture: "genesis.jpg",
-            song: "Illegal Alien",
-            preview: "https://p.scdn.co/mp3-preview/b29a2b925b9654e0efaaff37504fd234307e0ad8"
-        },
-        cloud: {
-            picture: "genesis.jpg",
-            song: "Illegal Alien",
-            preview: "https://p.scdn.co/mp3-preview/b29a2b925b9654e0efaaff37504fd234307e0ad8"
+var words = ["one", "two", "three", "four"];
+
+var randomWord = "";
+
+var blanksQuantity = 0;
+
+var blanksAndCorrectGuesses = [];
+
+var wrongGuesses = [];
+
+var wins = 0;
+
+var losses = 0;
+
+var numGuesses = 7;
+
+// functions
+// ===========================================================================================================================================
+
+function startGame () {
+
+    // reset variables at the start of the round
+    numGuesses = 7;
+    blanksAndCorrectGuesses = [];
+    wrongGuesses = [];
+
+    // reset display at the start of the round
+    document.getElementById("guess-counter").innerHTML = numGuesses;
+    document.getElementById("computer-word").innerHTML = blanksAndCorrectGuesses.join(" ");
+    document.getElementById("wrong-guesses").innerHTML = wrongGuesses.join(" ");
+
+    // choose word
+    randomWord = words[Math.floor(Math.random() * words.length)];
+    console.log(randomWord);
+
+    // split the word into individual letters
+    lettersInRandomWord = randomWord.split("");
+    console.log(lettersInRandomWord);
+
+    // store the length of the word so we know how many blanks to generate
+    blanksQuantity = lettersInRandomWord.length;
+    console.log(blanksQuantity);
+
+    // create blanks display
+    for (var i = 0; i < blanksQuantity; i++) {
+        blanksAndCorrectGuesses.push("_");
+    }
+
+    // display at the start of the round
+    document.getElementById("guess-counter").innerHTML = numGuesses;
+    document.getElementById("computer-word").innerHTML = blanksAndCorrectGuesses.join(" ");
+    document.getElementById("wrong-guesses").innerHTML = wrongGuesses.join(" ");
+
+}
+
+function checkLetter (letter) {
+
+    // creating a boolean variable is an effective way to toggle a function on and off
+    var letterInWordToggle = false;
+
+    // check if the letter guessed is in the random word
+    for (var i = 0; i < blanksQuantity; i++) {
+        if (randomWord[i] === letter) {
+            letterInWordToggle = true;
         }
-    },
+    }
 
-    // variables
-    // ==========================================================================
-    computerWord = "",
-    lettersInComputerWord =[],
-    numBlanks = 0,
-    gameBoard =[],
-    wrongGuesses =[],
-    wins = 0,
-    losses = 0,
-    guessCount = 9,
-
-    // methods
-    // ==========================================================================
-    startGame = function () {
-        // set 
-        computerWord = gameWords[Math.floor(Math.random() * gameWords.length)];
-        lettersInComputerWord = computerWord.split('');
-        numBlanks = lettersInComputerWord.length;
-        // reset 
-        guessCount = 9;
-        wrongGuesses = [];
-        gameBoard = [];
-        // populate game board
-        for (var i = 0; i < numBlanks; i++) {
-            gameBoard.push("_");
+    if (letterInWordToggle) {
+        for (var j = 0; j < blanksQuantity; j++) {
+            if (randomWord[j] === letter){
+                blanksAndCorrectGuesses[j] = letter;
+            }
         }
-        // display to html
-        document.getElementById("guess-counter").innerHTML = guessCount;
-        document.getElementById("computer-word").innerHTML = gameBoard.join('  ');
+        console.log(blanksAndCorrectGuesses);
+    } 
+    else {
+        wrongGuesses.push(letter);
+        numGuesses--;
+    }
+
+}
+
+function roundComplete() {
+
+    // First, log an initial status update in the console telling us how many wins, losses, and guesses are left.
+    console.log("WinCount: " + wins + " | LossCount: " + losses + " | NumGuesses: " + numGuesses);
+
+    // update html
+    document.getElementById("guess-counter").innerHTML = numGuesses;
+    document.getElementById("computer-word").innerHTML = blanksAndCorrectGuesses.join(" ");
+    document.getElementById("wrong-guesses").innerHTML = wrongGuesses.join(" ");
+
+    // check if you guessed all the letters
+    if (lettersInRandomWord.toString() === blanksAndCorrectGuesses.toString()){
+        wins++;
+        alert('you won!');
         document.getElementById("wins").innerHTML = wins;
+        startGame();
+    }
+    else if (numGuesses = 0) {
+        losses++;
+        alert("you lost");
         document.getElementById("losses").innerHTML = losses;
-    },
+        startGame();
+    }
 
-    checkLetters = function (letter) {
+}
 
-        // toggle boolean
-        var letterInWord = false;
 
-        // check if a letter is in game word
-        for (var i = 0; i < numBlanks; i++) {
-            if (computerWord[i] === letter) {
-                letterInWord = true;
-            }
-        }
-        
-        // check where letters are in the game word then populate array
-        if (letterInWord) {
-            for (var j = 0; j < numBlanks; j++) {
-                if (computerWord[j] === letter) {
-                    gameBoard[j] = letter;
-                }
-            }
-        }
-        
-        // letter was not in word
-        else {
-            wrongGuesses.push(letter);
-            guessCount--;
-        }
+// main processes
+// ===========================================================================================================================================
 
-    },
+// when page loads start game
+startGame();
 
-    gameOver = function () {
-        console.log("Win Count: " + wins + " | Loss Count: " + losses + " | Guesses Left: " + guessCount);
-        // update html
-        document.getElementById("guess-counter").innerHTML = guessCount;
-        document.getElementById("computer-word").innerHTML = gameBoard.join(' ');
-        document.getElementById("wrong-guesses").innerHTML = wrongGuesses.join(' ');
-        // user wins
-        if (lettersInComputerWord.toString() === gameBoard.toString()) {
-            wins++;
-            // alert("you win");
-            document.getElementById("wins").innerHTML = wins;
-            startGame();
-        }
-        // user losses
-        else if (guessCount <= 0) {
-            losses++;
-            alert("you lose");
-            document.getElementById("losses").innerHTML = losses;
-            startGame();
-        }
+// when key clicked do something
+document.onkeyup = function(event) {
+
+    if (event.keyCode >= 65 && event.keyCode <= 90) {
+        var letterGuessed = event.key.toLowerCase();
+        checkLetter(letterGuessed);
+        roundComplete();
     }
 
 };
 
-// MAIN PROCESS
-// ==========================================================================
 
-wordGuessGame.startGame();
-
-document.onkeyup = function (event) {
-    wordGuessGame.userInput = String.fromCharCode(event.keyCode).toLowerCase();
-    checkLetters(userInput);
-    gameOver();
-};

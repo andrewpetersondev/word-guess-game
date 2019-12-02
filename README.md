@@ -33,3 +33,5 @@ You win the game by completing the word before guesses left equals zero.
 ## Credits
 
 Coming Soon
+
+## Status

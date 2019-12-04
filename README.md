@@ -32,6 +32,15 @@ You win the game by completing the word before guesses left equals zero.
 
 ## Credits
 
-Coming Soon
+https://themushroomkingdom.net/
 
 ## Status
+
+[x] gather images
+[x] gather audio (play, win, lose)
+[] write html
+[] write css
+[] write js
+[] write readme
+[] add resume link
+[] add email link

@@ -1,82 +1,43 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="author" content="Andrew Peterson" />
-    <meta
-      name="description"
-      content="This webpage is a simple hangman-style word-guess game."
-    />
-    <!-- favicon -->
-    <link rel="icon" href="./assets/images/favicon.ico" type="image/x-icon" />
-    <!-- google font -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Kanit&display=swap"
-      rel="stylesheet"
-    />
-    <!-- custom styles -->
-    <link rel="stylesheet" href="./assets/css/style.css" />
-    <!-- title -->
-    <title>Word Guess Game</title>
-  </head>
 
-  <body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta name="author" content="Andrew Peterson" />
+  <meta name="description" content="This webpage is a simple hangman-style word-guess game." />
+  <!-- favicon -->
+  <link rel="icon" href="./assets/images/favicon.ico" type="image/x-icon" />
+  <!-- google font -->
+  <link href="https://fonts.googleapis.com/css?family=Kanit&display=swap" rel="stylesheet" />
+  <!-- custom styles -->
+  <link rel="stylesheet" href="./assets/css/reset.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <!-- title -->
+  <title>Word Guess Game</title>
+</head>
+
+<body>
+
+  <div class="container">
     <!-- page header -->
     <header id="page-header">
       <h1>Word Guess Game</h1>
-      <!-- <h3 id="starting-instructions">
-        Enter your name and press start to play!
-      </h3> -->
     </header>
 
     <main>
-      <!-- player info -->
-      <!-- <section id="player-info"> -->
-      <!-- name -->
-      <!-- <form>
-          <label for="name">Name (2 to 20 characters):</label>
-          <input
-            type="text"
-            id="name"
-            name="user_name"
-            required
-            minlength="2"
-            maxlength="20"
-            size="20"
-            placeholder="enter your name"
-            autofocus
-          />
-          <button type="submit" onclick="setPlayerName()">Play!</button>
-        </form> -->
-      <!-- </section> -->
-      <!-- messages -->
-      <!-- <section id="messages"></section> -->
+
       <!-- media section -->
       <section id="media-section">
         <picture>
-          <source
-            srcset="./assets/images/mk64-cover-800.jpg"
-            alt="mario"
-            type="image/jpeg"
-          />
-          <img
-            src="./assets/images/mk64-cover-1024.jpg"
-            alt="mario cover"
-            type="image/jpeg"
-          />
+          <source srcset="./assets/images/mk64-cover-800.jpg" alt="mario" type="image/jpeg" />
+          <img src="./assets/images/mk64-cover-1024.jpg" alt="mario cover" type="image/jpeg" />
         </picture>
 
         <audio controls>
           <source src="./assets/audio/smb_techno.mp3" type="audio/mpeg" />
-          <source
-            src="./assets/audio/mparty8_big_top_02.wav"
-            type="audio/wave"
-          />
+          <source src="./assets/audio/mparty8_big_top_02.wav" type="audio/wave" />
           <p>
             Your browser doesn't support HTML5 audio. Here is a
             <a href="myAudio.mp4">link to the audio</a> instead.
@@ -94,40 +55,11 @@
       </section>
     </main>
 
-    <footer>
-      <section class="footer-section">
-        <p>Built with:</p>
-        <ul>
-          <li>HTML 5</li>
-          <li>CSS 3</li>
-          <li>JavaScript</li>
-        </ul>
-      </section>
-      <section class="footer-section">
-        <p>citations</p>
-        <ul>
-          <li>
-            <a
-              href="https://themushroomkingdom.net/"
-              title="The Mushroom Kingdom"
-              >https://themushroomkingdom.net/</a
-            >
-          </li>
-        </ul>
-      </section>
-      <section class="footer-section">
-        <p>Updated <time datetime="2019-12">December 2019</time></p>
-        <a href="https://github.com/andrewpetersondev">
-          <img
-            class="footer-image"
-            src="./assets/images/github-logo.png"
-            alt="github logo that links to my github repositories"
-          />
-        </a>
-      </section>
-    </footer>
+  </div>
 
-    <!-- game logic -->
-    <script src="./assets/javascript/game.js" type="text/javascript"></script>
-  </body>
+
+  <!-- game logic -->
+  <script src="./assets/javascript/game.js" type="text/javascript"></script>
+</body>
+
 </html>
